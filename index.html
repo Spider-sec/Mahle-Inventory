@@ -436,6 +436,7 @@
 
         @page {
             margin: 0;
+            size: 100mm 70mm;
         }
 
         @media print {
@@ -449,28 +450,33 @@
             body.printing-label #label-print-area {
                 display: block !important;
                 position: absolute;
-                top: 20px;
+                top: 0;
                 left: 0;
-                width: 100%;
+                width: 100mm;
+                height: 70mm;
             }
 
             .tag-card {
-                width: 320px;
-                border: 3px solid #003056;
-                padding: 16px;
+                width: 100mm;
+                height: 70mm;
+                border: 2px solid #003056;
+                padding: 6mm 8mm;
                 font-family: Arial, sans-serif;
                 background: white;
                 color: black;
-                margin: 0 auto;
-                border-radius: 6px;
+                margin: 0;
+                border-radius: 4px;
+                box-sizing: border-box;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
             }
             .tag-header {
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
                 border-bottom: 2px solid #003056;
-                padding-bottom: 8px;
-                margin-bottom: 10px;
+                padding-bottom: 4px;
             }
             .tag-brand {
                 font-size: 1.4rem;
@@ -481,29 +487,30 @@
                 font-size: 0.75rem;
                 font-weight: 700;
                 text-align: right;
+                color: #334155;
             }
             .tag-title {
-                font-size: 1.3rem;
+                font-size: 1.2rem;
                 font-weight: 900;
                 color: #000;
-                margin-bottom: 6px;
+                margin-top: 2px;
                 text-transform: uppercase;
             }
             .tag-info-row {
                 display: flex;
                 justify-content: space-between;
-                font-size: 0.85rem;
-                margin-bottom: 4px;
+                font-size: 0.82rem;
+                color: #1e293b;
             }
             .tag-total-box {
                 border: 2px dashed #003056;
-                padding: 8px;
+                padding: 4px;
                 text-align: center;
-                margin-top: 10px;
-                background: #f1f5f9;
+                background: #f8fafc;
+                margin-top: 2px;
             }
             .tag-total-val {
-                font-size: 1.8rem;
+                font-size: 1.6rem;
                 font-weight: 900;
                 color: #003056;
             }
@@ -821,7 +828,12 @@
 
         const shift = document.getElementById('shift-select').value;
         const total = (part.containers * part.capacity) + part.loose;
-        const now = new Date().toLocaleString('pt-BR');
+        
+        // Data formatada sem os segundos (DD/MM/AAAA, HH:MM)
+        const d = new Date();
+        const dateStr = d.toLocaleDateString('pt-BR');
+        const timeStr = d.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+        const nowFormatted = `${dateStr}, ${timeStr}`;
 
         const labelArea = document.getElementById('label-print-area');
         labelArea.innerHTML = `
@@ -838,15 +850,15 @@
                     <span><strong>Cheios:</strong> ${part.containers} (${part.containerType}s)</span>
                     <span><strong>Avulsas:</strong> ${part.loose}</span>
                 </div>
-                <div class="tag-info-row" style="margin-top:6px; font-size:0.75rem; color:#475569;">
+                <div class="tag-info-row" style="margin-top:2px; font-size:0.78rem; color:#475569;">
                     <span><strong>Turno:</strong> ${shift}</span>
                 </div>
                 <div class="tag-total-box">
-                    <div style="font-size:0.75rem; font-weight:700;">TOTAL CONTABILIZADO</div>
+                    <div style="font-size:0.7rem; font-weight:700;">TOTAL CONTABILIZADO</div>
                     <div class="tag-total-val">${total.toLocaleString('pt-BR')} PÇS</div>
                 </div>
-                <div style="margin-top:8px; font-size:0.65rem; text-align:center; color:#64748b;">
-                    Impresso em: ${now}
+                <div style="margin-top:4px; font-size:0.65rem; text-align:center; color:#64748b;">
+                    Impresso em: ${nowFormatted}
                 </div>
             </div>
         `;
