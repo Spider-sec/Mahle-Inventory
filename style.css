@@ -219,12 +219,6 @@ body {
     text-transform: uppercase;
 }
 
-.last-update-text {
-    font-size: 0.8rem;
-    color: var(--mahle-subtext);
-    font-weight: 600;
-}
-
 select, input {
     background-color: #ffffff;
     border: 1.5px solid var(--mahle-border);
@@ -273,10 +267,6 @@ select, input {
     color: var(--mahle-blue);
 }
 
-.text-cyan { color: var(--mahle-cyan); }
-.text-amber { color: var(--mahle-amber); }
-.metric-icon { font-size: 2rem; }
-
 .card {
     background: var(--mahle-card);
     border: 1px solid var(--mahle-border);
@@ -301,11 +291,6 @@ select, input {
     display: flex;
     flex-direction: column;
     gap: 14px;
-}
-
-.form-label {
-    font-size: 0.78rem;
-    font-weight: 700;
 }
 
 .search-bar {
@@ -407,7 +392,6 @@ select, input {
 }
 
 .desktop-table-container { display: none; }
-.text-center { text-align: center; }
 
 @media (min-width: 768px) {
     body { font-size: 14px; }
@@ -439,7 +423,9 @@ footer { text-align: center; font-size: 0.75rem; color: var(--mahle-subtext); ma
     animation: fadeIn 0.8s ease-in 1.2s forwards;
 }
 
-#label-print-area { display: none; }
+#label-print-area {
+    display: none;
+}
 
 @page {
     margin: 0;
@@ -467,7 +453,7 @@ footer { text-align: center; font-size: 0.75rem; color: var(--mahle-subtext); ma
         width: 100mm;
         height: 70mm;
         border: 2px solid #003056;
-        padding: 4mm 6mm;
+        padding: 6mm 8mm;
         font-family: Arial, sans-serif;
         background: white;
         color: black;
@@ -483,21 +469,21 @@ footer { text-align: center; font-size: 0.75rem; color: var(--mahle-subtext); ma
         justify-content: space-between;
         align-items: center;
         border-bottom: 2px solid #003056;
-        padding-bottom: 2px;
+        padding-bottom: 4px;
     }
     .tag-brand {
-        font-size: 1.3rem;
+        font-size: 1.4rem;
         font-weight: 900;
         color: #003056;
     }
     .tag-plant {
-        font-size: 0.7rem;
+        font-size: 0.75rem;
         font-weight: 700;
         text-align: right;
         color: #334155;
     }
     .tag-title {
-        font-size: 1.1rem;
+        font-size: 1.2rem;
         font-weight: 900;
         color: #000;
         margin-top: 2px;
@@ -506,27 +492,20 @@ footer { text-align: center; font-size: 0.75rem; color: var(--mahle-subtext); ma
     .tag-info-row {
         display: flex;
         justify-content: space-between;
-        font-size: 0.78rem;
+        font-size: 0.82rem;
         color: #1e293b;
     }
     .tag-total-box {
         border: 2px dashed #003056;
-        padding: 2px;
+        padding: 4px;
         text-align: center;
         background: #f8fafc;
-    }
-    .tag-total-val {
-        font-size: 1.4rem;
-        font-weight: 900;
-        color: #003056;
-    }
-    .barcode-container {
-        text-align: center;
         margin-top: 2px;
     }
-    .barcode-container svg {
-        max-width: 100%;
-        height: 35px;
+    .tag-total-val {
+        font-size: 1.6rem;
+        font-weight: 900;
+        color: #003056;
     }
 
     body:not(.printing-label) #splash-screen,
