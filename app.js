@@ -1,3 +1,10 @@
+window.addEventListener('DOMContentLoaded', () => {
+    setTimeout(() => {
+        const splash = document.getElementById('splash-screen');
+        if (splash) splash.classList.add('fade-out');
+    }, 2200);
+});
+
 const defaultParts = [
     { id: 1, name: "Carcaça CC694", containerType: "Cesto", capacity: 110, containers: 0, loose: 0 },
     { id: 2, name: "Tampa CC694", containerType: "Caixa", capacity: 216, containers: 0, loose: 0 },
@@ -6,29 +13,6 @@ const defaultParts = [
 
 let parts = [];
 const STORAGE_KEY = 'mahle_bu2_user_session_v1';
-
-window.addEventListener('DOMContentLoaded', () => {
-    setTimeout(() => {
-        const splash = document.getElementById('splash-screen');
-        if (splash) splash.classList.add('fade-out');
-    }, 2200);
-
-    initApp();
-});
-
-function initApp() {
-    loadSavedData();
-    setupEventListeners();
-    renderUI();
-}
-
-function setupEventListeners() {
-    document.getElementById('add-part-form').addEventListener('submit', addNewPart);
-    document.getElementById('search-input').addEventListener('keyup', filterTable);
-    document.getElementById('shift-select').addEventListener('change', saveData);
-    document.getElementById('btn-reset').addEventListener('click', resetCounts);
-    document.getElementById('btn-export').addEventListener('click', exportPDF);
-}
 
 function loadSavedData() {
     const saved = localStorage.getItem(STORAGE_KEY);
@@ -209,27 +193,11 @@ function printSingleLabel(id) {
                 <div style="font-size:0.65rem; font-weight:700;">TOTAL CONTABILIZADO</div>
                 <div class="tag-total-val">${total.toLocaleString('pt-BR')} PÇS</div>
             </div>
-            <div class="barcode-container">
-                <svg id="barcode"></svg>
-            </div>
             <div style="font-size:0.6rem; text-align:center; color:#64748b;">
                 Impresso em: ${nowFormatted}
             </div>
         </div>
     `;
-
-    try {
-        JsBarcode("#barcode", part.name, {
-            format: "CODE128",
-            width: 1.5,
-            height: 30,
-            displayValue: true,
-            fontSize: 10,
-            margin: 0
-        });
-    } catch(e) {
-        console.log("Erro ao gerar código de barras", e);
-    }
 
     document.body.classList.add('printing-label');
     window.print();
@@ -238,3 +206,6 @@ function printSingleLabel(id) {
         document.body.classList.remove('printing-label');
     }, 1000);
 }
+
+loadSavedData();
+renderUI();
