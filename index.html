@@ -4,12 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>MAHLE BU2 Smart Inventory - Sistema de Inventário Operacional</title>
-    
-    <!-- CSS Principal -->
     <link rel="stylesheet" href="style.css">
-    
-    <!-- Biblioteca JsBarcode para Código de Barras -->
-    <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
 </head>
 <body>
 
@@ -35,8 +30,8 @@
             </div>
         </div>
         <div class="header-actions">
-            <button class="btn btn-outline" id="btn-reset">🔄 Zerar Meu Progresso</button>
-            <button class="btn btn-cyan" id="btn-export">📄 Exportar PDF</button>
+            <button class="btn btn-outline" onclick="resetCounts()">🔄 Zerar Meu Progresso</button>
+            <button class="btn btn-cyan" onclick="exportPDF()">📄 Exportar PDF</button>
         </div>
     </div>
 </header>
@@ -45,14 +40,14 @@
     <div class="control-bar">
         <div class="shift-group">
             <label for="shift-select">Turno de Trabalho:</label>
-            <select id="shift-select">
+            <select id="shift-select" onchange="saveData()">
                 <option value="1º Turno (06:00 - 14:00)">1º Turno (06:00 - 14:00)</option>
                 <option value="2º Turno (14:00 - 23:00)">2º Turno (14:00 - 23:00)</option>
                 <option value="3º Turno (23:00 - 06:00)">3º Turno (23:00 - 06:00)</option>
                 <option value="Comercial / Adm">Comercial / Adm</option>
             </select>
         </div>
-        <div class="last-update-text" id="last-update">
+        <div style="font-size: 0.8rem; color: var(--mahle-subtext); font-weight: 600;" id="last-update">
             Atualizado: --:--:--
         </div>
     </div>
@@ -63,33 +58,33 @@
                 <div class="metric-label">Total Geral de Peças</div>
                 <div class="metric-value" id="grand-total">0</div>
             </div>
-            <div class="metric-icon">📦</div>
+            <div style="font-size: 2rem;">📦</div>
         </div>
         <div class="metric-card">
             <div>
                 <div class="metric-label">Cestos / Caixas Cheios</div>
-                <div class="metric-value text-cyan" id="total-containers">0</div>
+                <div class="metric-value" id="total-containers" style="color: var(--mahle-cyan);">0</div>
             </div>
-            <div class="metric-icon">📥</div>
+            <div style="font-size: 2rem;">📥</div>
         </div>
         <div class="metric-card">
             <div>
                 <div class="metric-label">Peças Avulsas</div>
-                <div class="metric-value text-amber" id="total-loose">0</div>
+                <div class="metric-value" id="total-loose" style="color: var(--mahle-amber);">0</div>
             </div>
-            <div class="metric-icon">🧩</div>
+            <div style="font-size: 2rem;">🧩</div>
         </div>
     </div>
 
     <div class="card">
         <div class="card-header">➕ Cadastrar Novo Componente</div>
-        <form id="add-part-form" class="form-body">
+        <form id="add-part-form" onsubmit="addNewPart(event)" class="form-body">
             <div>
-                <label class="form-label">CÓDIGO OU PEÇA</label>
+                <label style="font-size:0.78rem; font-weight:700;">CÓDIGO OU PEÇA</label>
                 <input type="text" id="part-name" placeholder="Ex: Carcaça CC694 / KC620" required>
             </div>
             <div>
-                <label class="form-label">EMBALAGEM</label>
+                <label style="font-size:0.78rem; font-weight:700;">EMBALAGEM</label>
                 <select id="container-type">
                     <option value="Cesto">Cesto Industrial</option>
                     <option value="Caixa">Caixa Padrão</option>
@@ -98,7 +93,7 @@
                 </select>
             </div>
             <div>
-                <label class="form-label">QTD PADRÃO</label>
+                <label style="font-size:0.78rem; font-weight:700;">QTD PADRÃO</label>
                 <input type="number" id="part-capacity" min="1" placeholder="Ex: 110" required>
             </div>
             <button type="submit" class="btn btn-navy">+ Adicionar</button>
@@ -107,7 +102,7 @@
 
     <div class="card">
         <div class="search-bar">
-            <input type="text" id="search-input" placeholder="🔍 Buscar código de peça...">
+            <input type="text" id="search-input" placeholder="🔍 Buscar código de peça..." onkeyup="filterTable()">
         </div>
 
         <div class="mobile-parts-list" id="mobile-parts-container"></div>
@@ -121,7 +116,7 @@
                         <th>Recipientes Cheios</th>
                         <th>Avulsas (Manual)</th>
                         <th>Total Peças</th>
-                        <th class="text-center">Ações</th>
+                        <th style="text-align: center;">Ações</th>
                     </tr>
                 </thead>
                 <tbody id="desktop-table-body"></tbody>
@@ -134,7 +129,6 @@
 
 <div id="label-print-area"></div>
 
-<!-- JS Principal -->
 <script src="app.js"></script>
 </body>
 </html>
